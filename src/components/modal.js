@@ -30,12 +30,6 @@ const popupOpenImage = (evt) => {
   }
 };
 
-function handleFormSubmit(evt) {
-  evt.preventDefault();
-  document.querySelector(".profile__title").textContent = nameInput.value;
-  document.querySelector(".profile__description").textContent = jobInput.value;
-  closeModal(popupTypeEdit);
-}
 
 export {
   openModal,
@@ -43,7 +37,5 @@ export {
   popupOpenImage,
   closeModal,
   escpClose,
-  handleFormSubmit
 };
 
-import { nameInput, jobInput, popupTypeEdit } from "../index.js"

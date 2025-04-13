@@ -9,13 +9,12 @@
 // @todo: Вывести карточки на страницу
 // импорт элементов
 import "./index.css";
-import { initialCards, creatCard, deleteCard, like, addCard } from "./cards.js";
+import { initialCards, creatCard, deleteCard, like } from "./cards.js";
 import {
   openModal,
   animated,
   popupOpenImage,
-  closeModal,
-  handleFormSubmit
+  closeModal
 } from "./components/modal.js";
 // объявление
 const cardList = document.querySelector(".places__list");
@@ -61,7 +60,25 @@ popupAll.forEach((popup) => {
   });
 });
 // ФОРМЫ
-formAddCard.addEventListener("submit", addCard);
-formElement.addEventListener("submit", handleFormSubmit);
 
-export { nameInput, jobInput, popupTypeEdit, namePlace, linkPlace, popupNewCard, cardList }
+function addCard(evt) {
+  evt.preventDefault();
+  const data = { }
+  data.name = namePlace.value
+  data.link  = linkPlace.value
+  cardList.prepend(creatCard(data, deleteCard, popupOpenImage, like));
+   closeModal(popupNewCard);
+ }
+
+ function handleProfileFormSubmit(evt) {
+  evt.preventDefault();
+  document.querySelector(".profile__title").textContent = nameInput.value;
+  document.querySelector(".profile__description").textContent = jobInput.value;
+  closeModal(popupTypeEdit);
+}
+
+formAddCard.addEventListener("submit", addCard);
+formElement.addEventListener("submit",handleProfileFormSubmit);
+
+
+export { nameInput, jobInput, popupTypeEdit }
