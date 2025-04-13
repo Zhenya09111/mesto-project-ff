@@ -9,33 +9,30 @@
 // @todo: Вывести карточки на страницу
 // импорт элементов
 import "./index.css";
-import { initialCards, creatCard, deleteCard } from "./cards.js";
-import {  
+import { initialCards, creatCard, deleteCard, like, addCard } from "./cards.js";
+import {
   openModal,
   animated,
   popupOpenImage,
   closeModal,
+  handleFormSubmit
 } from "./components/modal.js";
-import {
-  formAddCard,
-  namePlace,
-  linkPlace,
-  addNewCard,
-  handleFormSubmit,
-  nameInput,
-  jobInput,
-  formElement,
-} from "./components/form.js";
 // объявление
-export const cardList = document.querySelector(".places__list");
-export const popupTypeEdit = document.querySelector(".popup_type_edit");
-export const popupNewCard = document.querySelector(".popup_type_new-card");
+const cardList = document.querySelector(".places__list");
+const popupTypeEdit = document.querySelector(".popup_type_edit");
+const popupNewCard = document.querySelector(".popup_type_new-card");
 const btnProfileEdit = document.querySelector(".profile__edit-button");
 const btnAddProfile = document.querySelector(".profile__add-button");
 const popupAll = document.querySelectorAll(".popup");
+const formElement = document.forms.editProfile;
+const nameInput = formElement.elements.name;
+const jobInput = formElement.elements.description;
+const formAddCard = document.forms.newPlace;
+const namePlace = formAddCard.elements.placeName;
+const linkPlace = formAddCard.elements.link;
 // создание карточек из массива
 initialCards.forEach((item) => {
-  cardList.append(creatCard(item, deleteCard, popupOpenImage));
+  cardList.append(creatCard(item, deleteCard, popupOpenImage, like));
 });
 // кнопка редактора профиля
 btnProfileEdit.addEventListener("click", () => {
@@ -64,5 +61,7 @@ popupAll.forEach((popup) => {
   });
 });
 // ФОРМЫ
-formAddCard.addEventListener("submit", addNewCard);
+formAddCard.addEventListener("submit", addCard);
 formElement.addEventListener("submit", handleFormSubmit);
+
+export { nameInput, jobInput, popupTypeEdit, namePlace, linkPlace, popupNewCard, cardList }
