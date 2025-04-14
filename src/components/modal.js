@@ -1,11 +1,10 @@
-const popupPicture = document.querySelector(".popup_type_image");
 // открытие попа
 const openModal = (popup) => {
   popup.classList.add("popup_is-opened");
-  document.addEventListener("keydown", escpClose);
+  document.addEventListener("keydown", closeByEscp);
 };
 // закрытие на эскейп
-const escpClose = (evt) => {
+const closeByEscp = (evt) => {
   if (evt.key === "Escape") {
     const modal = document.querySelector(".popup_is-opened");
     if (modal) closeModal(modal);
@@ -14,28 +13,18 @@ const escpClose = (evt) => {
 // закрытие попа
 const closeModal = (popup) => {
   popup.classList.remove("popup_is-opened");
-  document.removeEventListener("keydown", escpClose);
+  document.removeEventListener("keydown", closeByEscp);
 };
 // анимация попа
-const animated = (popup) => {
+const addAnimated = (popup) => {
   popup.classList.add("popup_is-animated");
 };
-// открытие попа по изоброжению
-const popupOpenImage = (evt) => {
-  if (evt.target.classList.contains("card__image")) {
-    popupPicture.querySelector(".popup__image").src = evt.target.src;
-    popupPicture.querySelector(".popup__image").alt = evt.target.alt;
-    popupPicture.querySelector(".popup__caption").textContent = evt.target.alt;
-    openModal(popupPicture);
-  }
-};
+
 
 
 export {
   openModal,
-  animated,
-  popupOpenImage,
-  closeModal,
-  escpClose,
+  addAnimated,
+  closeModal
 };
 
