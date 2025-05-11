@@ -25,35 +25,30 @@ export const initialCards = [
   },
 ];
 
-export function creatCard(
-  data,
-  deleteCard,
-  openPopupByImage,
-  like,
-  likeCounter,
-) {
+export function creatCard(id, data, deleteCard, openPopupByImage, switchLike) {
   const cardTemplate = document.querySelector("#card-template").content;
   const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
+  const deleteButton = cardItem.querySelector(".card__delete-button");
+  const cardID = data._id;
   cardItem.querySelector(".card__image").src = data.link;
   cardItem.querySelector(".card__title").textContent = data.name;
   cardItem.querySelector(".card__image").alt = data.name;
-  const deleteButton = cardItem.querySelector(".card__delete-button");
+  cardItem.querySelector(".like__counter").textContent = data.likes.length;
   deleteButton.addEventListener("click", () => deleteCard(cardItem, cardID));
   cardItem.addEventListener("click", (evt) => {
-    like(evt, cardID, cardItem);
+    switchLike(evt, cardID, cardItem);
   });
   cardItem.addEventListener("click", openPopupByImage);
-  let cardID = data._id;
-  likeCounter(cardID, cardItem);
-  return cardItem;
-}
-// функция удаления карточки
-export function deleteCard(cardItem) {
-  cardItem.remove();
-}
-// функция лайка
-export function like(evt) {
-  if (evt.target.classList.contains("card__like-button")) {
-    evt.target.classList.toggle("card__like-button_is-active");
+  const btnLike = cardItem.querySelector(".card__like-button");
+  const likes = data.likes;
+  likes.forEach((like) => {
+    if (like._id === id) {
+      btnLike.classList.add("card__like-button_is-active");
+    }
+  });
+  if (data.owner._id !== id) {
+    const btnRemove = cardItem.querySelector(".card__delete-button")
+    btnRemove.remove()
   }
+  return cardItem;
 }

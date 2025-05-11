@@ -20,11 +20,4 @@ const addAnimated = (popup) => {
   popup.classList.add("popup_is-animated");
 };
 
-
-
-export {
-  openModal,
-  addAnimated,
-  closeModal
-};
-
+export { openModal, addAnimated, closeModal };
