@@ -146,9 +146,9 @@ export function saveNewCardApi(
     }
     return Promise.reject(`Ошибка: ${res.status}`);
   })
-    .then((data) => {
+    .then((result) => {
       cardList.prepend(
-        creatCard(id, data, deleteCardApi, openPopupByImage, switchLike)
+        creatCard(id, result, deleteCardApi, openPopupByImage, switchLike)
       );
       closeModal(popupNewCard);
     })

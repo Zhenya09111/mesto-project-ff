@@ -58,6 +58,7 @@ btnProfileEdit.addEventListener("click", () => {
   openModal(popupTypeEdit);
   jobInput.value = document.querySelector(".profile__description").textContent;
   nameInput.value = document.querySelector(".profile__title").textContent;
+  clearValidation(popupTypeEdit, validationConfig)
 });
 // редактирование профиля
 function handleProfileFormSubmit(evt) {
@@ -65,7 +66,6 @@ function handleProfileFormSubmit(evt) {
   document.querySelector(".profile__title").textContent = nameInput.value;
   document.querySelector(".profile__description").textContent = jobInput.value;
   editProfileApi(nameInput.value, jobInput.value, evt);
-  clearValidation(popupTypeEdit, validationConfig)
   closeModal(popupTypeEdit);
 }
 // открыть попап добавления карточки через кнопку
@@ -73,16 +73,18 @@ btnAddProfile.addEventListener("click", () => {
   openModal(popupNewCard);
   linkPlace.value = "";
   namePlace.value = "";
+  clearValidation(popupNewCard, validationConfig)
 });
 // открыть попап смены аватара
 btnAvatarEdit.addEventListener("click", () => {
   openModal(popupAvatar);
   avatar.value = "";
-}); // смена аватара на сервере
+  clearValidation(popupAvatar, validationConfig)
+});
+ // смена аватара на сервере
 function addAvatar(evt) {
   evt.preventDefault();
   changeAvatar(avatar.value, closeModal, evt);
-  clearValidation(popupAvatar, validationConfig)
 }
 //  открыть картинку
 function openPopupByImage(evt) {
@@ -111,9 +113,10 @@ popupAll.forEach((popup) => {
 // добавление новой карточки через попап
 function addCard(evt) {
   evt.preventDefault();
-  const data = {};
-  data.name = namePlace.value;
-  data.link = linkPlace.value;
+  const data = {
+    name: namePlace.value,
+    link: linkPlace.value
+  }
   saveNewCardApi(
     id,
     data,
