@@ -1,5 +1,5 @@
 // id пользователья
-export let id;  
+// export let id;  
 // конфиг авторизации
 export const config = {
   baseUrl: "https://nomoreparties.co/v1/wff-cohort-37",
@@ -28,34 +28,6 @@ export function getProfile() {
       return res.json();
     }
     return Promise.reject(`Ошибка: ${res.status}`);
-  });
-}
-// вывести все карточки и инфо пользователя
-export function allInfo(
-  cardList,
-  creatCard,
-  deleteCardApi,
-  openPopupByImage,
-  switchLike 
-) {
-  Promise.all([getInitialCards(), getProfile()]).then(([cards, user]) => {
-    cards.forEach((data) => {
-      cardList.prepend(
-        creatCard(
-          user._id,
-          data,
-          deleteCardApi, 
-          openPopupByImage,
-          switchLike 
-        )
-      );
-    });
-    id = user._id;
-    document.querySelector(
-      ".profile__image"
-    ).style = `background-image: url(${user.avatar})`;
-    document.querySelector(".profile__title").textContent = user.name;
-    document.querySelector(".profile__description").textContent = user.about;
   });
 }
 // смена аватара
@@ -154,9 +126,7 @@ export function saveNewCardApi(
     })
     .finally(() => {
       btn.querySelector(".popup__button").textContent = "Сохранить";
-      btn
-        .querySelector(".popup__button")
-        .classList.add("popup__button_disabled");
+      btn.querySelector(".popup__button").classList.add("popup__button_disabled");
     });
 }
 // удаление карточки
@@ -168,13 +138,13 @@ export function deleteCardApi(cardItem, cardID) {
   });
 }
 // слушатель лайка
-export function switchLike(evt, cardID, cardItem) {
+export function switchLike(evt, cardID, cardItem, id) {
   if (evt.target.classList.contains("card__like-button")) {
     getInitialCards().then((data) => {
       data.forEach((item) => {
         if (item._id === cardID) {
           const likes = item.likes;
-          if (checkUserLike(likes)) {
+          if (checkUserLike(likes, id)) {
             deleteLike(cardID, evt, cardItem);
           } else {
             saveLike(cardID, evt, cardItem);
@@ -185,7 +155,7 @@ export function switchLike(evt, cardID, cardItem) {
   }
 }
 // проверка наличия лайка пользователя
-export function checkUserLike(likes) {
+export function checkUserLike(likes, id) {
   return likes.some((like) => {
     return like._id === id;
   });

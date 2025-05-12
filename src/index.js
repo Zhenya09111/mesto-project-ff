@@ -13,20 +13,18 @@ import { initialCards, creatCard, deleteCard, like } from "./cards.js";
 import { openModal, addAnimated, closeModal } from "./components/modal.js";
 import { enableValidation, clearValidation } from "../validation.js";
 import {
-  id,
-  showMyCards,
+  // id,
   saveNewCardApi,
-  profileID,
   deleteCardApi,
   allInfo,
-  likeCounter,
   switchLike,
-  showAllCards,
   editProfileApi,
   changeAvatar,
-  infoUser,
+  getInitialCards,
+  getProfile
 } from "./api.js";
 // объявление
+let id;
 const cardList = document.querySelector(".places__list");
 const popupTypeEdit = document.querySelector(".popup_type_edit");
 const popupNewCard = document.querySelector(".popup_type_new-card");
@@ -139,4 +137,24 @@ enableValidation(validationConfig);
 // экспорт
 export { nameInput, jobInput, popupTypeEdit, openPopupByImage };
 // показать на странице все карточки
-allInfo(cardList, creatCard, deleteCardApi, openPopupByImage, switchLike);
+// allInfo(cardList, creatCard, deleteCardApi, openPopupByImage, switchLike);
+  Promise.all([getInitialCards(), getProfile()])
+  .then(([cards, user]) => {
+    cards.forEach((data) => {
+      cardList.prepend(
+        creatCard(
+          user._id,
+          data,
+          deleteCardApi, 
+          openPopupByImage,
+          switchLike 
+        )
+      );
+    });
+    id = user._id;
+    document.querySelector(
+      ".profile__image"
+    ).style = `background-image: url(${user.avatar})`;
+    document.querySelector(".profile__title").textContent = user.name;
+    document.querySelector(".profile__description").textContent = user.about;
+  });

@@ -36,7 +36,7 @@ export function creatCard(id, data, deleteCard, openPopupByImage, switchLike) {
   cardItem.querySelector(".like__counter").textContent = data.likes.length;
   deleteButton.addEventListener("click", () => deleteCard(cardItem, cardID));
   cardItem.addEventListener("click", (evt) => {
-    switchLike(evt, cardID, cardItem);
+    switchLike(evt, cardID, cardItem, id);
   });
   cardItem.addEventListener("click", openPopupByImage);
   const btnLike = cardItem.querySelector(".card__like-button");
