@@ -15,7 +15,7 @@ const hideInputError = (inputItem, formItem, config) => {
 // проверка инкута на валидность
 const checkInputValid = (inputItem, formItem, errorMessage, config) => {
   if (inputItem.validity.patternMismatch) {
-    inputItem.setCustomValidity(inputItem.dataset.errorMessage); 
+    inputItem.setCustomValidity(inputItem.dataset.errorMessage);
   } else {
     inputItem.setCustomValidity("");
   }
@@ -57,16 +57,14 @@ export const enableValidation = (config) => {
     setEventListener(formItem, config);
   });
 };
-
-
-
-export const clearValidation = (validPopup, config) => {
-  const formItem = validPopup.querySelector(config.formSelector);
-  const inputList = formItem.querySelectorAll(config.inputSelector);
-  inputList.forEach(input => {
-    input.classList.remove(config.inputErrorClass);
-    const errorItem = formItem.querySelector(`.${input.id}-error`);
-    errorItem.textContent = "";
-    errorItem.classList.remove(config.errorClass);
-  })
-}
+// очистка форм
+export const clearValidation = (validForm, config) => {
+  const inputList = Array.from(
+    validForm.querySelectorAll(config.inputSelector)
+  );
+  const buttonForm = validForm.querySelector(config.submitButtonSelector);
+  toggleButtonState(inputList, buttonForm, config);
+  inputList.forEach((input) => {
+    hideInputError(input, validForm, config);
+  });
+};
